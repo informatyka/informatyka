@@ -52,7 +52,8 @@ int main()
     file<<wymiar_x<<endl<<wymiar_x<<endl;
     for (int i = 0; i < (sizeof(tempx)/sizeof(tempy[0])); i++)
     {
-            file<<tempx[i]<<" "<<tempy[i]<<endl;
+            file<<tempx[i]<<endl;
+            file<<tempy[i]<<endl;
     }
     file.close();
     system("./bin/test");
