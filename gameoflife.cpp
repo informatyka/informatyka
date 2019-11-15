@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -53,16 +55,8 @@ void Born(int **&base,int x, int y)
 
 int Check(int **&board,int x, int y)
 {
-    int w=0;
-    if (board[x + 1][y] == 1) w ++;
-	if (board[x + 1][y + 1] == 1) w ++;
-	if (board[x][y+1] == 1) w ++;
-	if (board[x-1][y+1] == 1) w ++;
-	if (board[x - 1][y] == 1) w ++;
-	if (board[x - 1][y-1] == 1) w ++;
-	if (board[x][y-1] == 1) w ++;
-	if (board[x+1][y-1] == 1) w ++;
-    return w;
+  
+    return board[x + 1][y]+board[x + 1][y + 1]+board[x][y+1] +board[x-1][y+1] +board[x - 1][y]+board[x - 1][y-1] +board[x][y-1]+board[x+1][y-1];
 }    
 
 
@@ -118,7 +112,7 @@ int main(int argc, char const *argv[])
 // TODO: tablicę jako matrycę
 // cout<<"############################"<<endl;
 
-    for (int i = 0; i<5;i++)
+    for (;;)
     {
         int ** basescreen = new int * [wymiar_x];
     for(int i = 0; i<wymiar_x;i++)
@@ -140,7 +134,7 @@ int main(int argc, char const *argv[])
             {
             // cout<<"2"<<endl;
                 int neighbours = Check(board,i,j);
-                if (neighbours<2 || neighbours>3)
+                if (neighbours<2)
                 {
                 // cout<<"2.1"<<endl;
                     goDie(basescreen,i,j);
@@ -150,12 +144,14 @@ int main(int argc, char const *argv[])
                 // cout<<"2.2"<<endl;
                     Born(basescreen,i,j);
                 }
-            
-                else
+                else if (neighbours>3)
                 {
-                // cout<<"2.3"<<endl;
-                    basescreen[i][j] =1;
+                    goDie(basescreen,i,j);
                 }
+                // if (neighbours == 2)
+                // {
+                    // basescreen[i][j] =1;
+                // }
             }
         }
     for (int i = 0; i < wymiar_x; i++)
@@ -167,17 +163,20 @@ int main(int argc, char const *argv[])
         
     }
     delete[] basescreen;
-    for (int i = 1; i < wymiar_x; i++)
+    for (int k = 0; k<=10; k++)
     {
-        for (int j = 1; j < wymiar_y; j++)
+        system("clear");
+        for (int i = 1; i < wymiar_x; i++)
         {
-            cout<<board[i][j];
+            for (int j = 1; j < wymiar_y; j++)
+            {
+                cout<<board[i][j];
+            }
+            cout<<endl; 
         }
-       cout<<endl; 
+        this_thread::sleep_for(std::chrono::milliseconds(5));
     }
-        cout<<endl;
-        cout<<"###########################################################################"<<endl;
-    }
+}
 
 
 
